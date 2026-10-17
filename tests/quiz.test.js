@@ -32,6 +32,8 @@ test("shuffle keeps every item and does not change the original array", () => {
   assert.deepEqual(original, [1, 2, 3, 4, 5]);
 });
 
-test("getGrade gives an A for exactly 90%", () => {
+test("getGrade includes the documented grade thresholds", () => {
   assert.equal(getGrade(90), "A");
+  assert.equal(getGrade(75), "B");
+  assert.equal(getGrade(50), "C");
 });
