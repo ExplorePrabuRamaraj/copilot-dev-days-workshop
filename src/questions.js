@@ -40,6 +40,21 @@ const QUESTIONS = [
     question: "Which command stages all changes for the next commit?",
     options: ["git add .", "git commit -m", "git push", "git status"],
     answer: 0,
+  },
+  {
+    question: "Which directory stores GitHub Actions workflow files?",
+    options: [".github/workflows", ".vscode", "scripts", "docs"],
+    answer: 0,
+  },
+  {
+    question: "Which event triggers a workflow on every push to a branch?",
+    options: ["workflow_dispatch", "push", "schedule", "release"],
+    answer: 1,
+  },
+  {
+    question: "Which keyword runs a shell command in a GitHub Actions step?",
+    options: ["run", "script", "execute", "task"],
+    answer: 0,
   }
 ];
 
