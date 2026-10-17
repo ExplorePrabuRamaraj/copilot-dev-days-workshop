@@ -2,7 +2,14 @@
 // Run them with:  npm test
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { shuffle, isCorrect, formatTimeLeft, calculatePercentage, getGrade } = require("../src/quiz.js");
+const {
+  shuffle,
+  isCorrect,
+  formatTimeLeft,
+  calculatePercentage,
+  getGrade,
+  getFeedbackMessage,
+} = require("../src/quiz.js");
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);
@@ -33,7 +40,17 @@ test("shuffle keeps every item and does not change the original array", () => {
 });
 
 test("getGrade includes the documented grade thresholds", () => {
+  assert.equal(getGrade(89), "B");
   assert.equal(getGrade(90), "A");
+  assert.equal(getGrade(74), "C");
   assert.equal(getGrade(75), "B");
+  assert.equal(getGrade(49), "Keep practicing");
   assert.equal(getGrade(50), "C");
+});
+
+test("getFeedbackMessage returns the message for each grade", () => {
+  assert.equal(getFeedbackMessage("A"), "Excellent work! You're a quiz master!");
+  assert.equal(getFeedbackMessage("B"), "Good job! Keep up the great work!");
+  assert.equal(getFeedbackMessage("C"), "Not bad! Keep practicing and you'll get better!");
+  assert.equal(getFeedbackMessage("Keep practicing"), "Keep practicing and you'll get better!");
 });
