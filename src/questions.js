@@ -36,6 +36,11 @@ const QUESTIONS = [
     ],
     answer: 1,
   },
+  {
+    question: "Which command stages all changes for the next commit?",
+    options: ["git add .", "git commit -m", "git push", "git status"],
+    answer: 0,
+  }
 ];
 
 // Lets Node.js tests load this file. Browsers ignore this block.
