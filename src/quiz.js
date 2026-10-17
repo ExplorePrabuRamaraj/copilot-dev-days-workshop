@@ -2,6 +2,42 @@
 // This file has NO browser (DOM) code so it can be tested with Node.js.
 
 /**
+ * Creates a fresh quiz state for the supplied questions.
+ */
+function createQuiz(questions) {
+  return { questions, current: 0, score: 0, answered: false };
+}
+
+/**
+ * Records an answer without changing the existing state.
+ */
+function answerQuestion(state, selectedIndex) {
+  const correct = isCorrect(state.questions[state.current], selectedIndex);
+  return {
+    state: {
+      ...state,
+      score: state.score + (correct ? 1 : 0),
+      answered: true,
+    },
+    correct,
+  };
+}
+
+/**
+ * Advances to the next question without changing the existing state.
+ */
+function advanceQuiz(state) {
+  return { ...state, current: state.current + 1, answered: false };
+}
+
+/**
+ * Returns true when the current question is beyond the end of the quiz.
+ */
+function isQuizFinished(state) {
+  return state.current >= state.questions.length;
+}
+
+/**
  * Returns a new array with the items in random order.
  * The original array is not changed.
  */
@@ -63,5 +99,16 @@ function getFeedbackMessage(grade) {
 
 // Lets Node.js tests load this file. Browsers ignore this block.
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { shuffle, isCorrect, formatTimeLeft, calculatePercentage, getGrade, getFeedbackMessage };
+  module.exports = {
+    createQuiz,
+    answerQuestion,
+    advanceQuiz,
+    isQuizFinished,
+    shuffle,
+    isCorrect,
+    formatTimeLeft,
+    calculatePercentage,
+    getGrade,
+    getFeedbackMessage,
+  };
 }

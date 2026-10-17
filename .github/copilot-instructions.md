@@ -1,7 +1,7 @@
 # Dev Days Quiz: Copilot instructions
 
 ## Project
-Small quiz web app for a workshop. Plain HTML, CSS and JavaScript. Run tests with `npm test`.
+Small quiz web app for a workshop. Plain HTML, CSS and JavaScript. Run tests with `npm test` from the project root.
 
 ## Rules
 - No frameworks, build tools or npm dependencies.

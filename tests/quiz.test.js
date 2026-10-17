@@ -3,6 +3,10 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const {
+  createQuiz,
+  answerQuestion,
+  advanceQuiz,
+  isQuizFinished,
   shuffle,
   isCorrect,
   formatTimeLeft,
@@ -10,6 +14,52 @@ const {
   getGrade,
   getFeedbackMessage,
 } = require("../src/quiz.js");
+
+test("createQuiz creates a fresh initial state for the supplied questions", () => {
+  const questions = [{ answer: 1 }];
+  const state = createQuiz(questions);
+
+  assert.deepEqual(state, { questions, current: 0, score: 0, answered: false });
+  assert.notEqual(state, createQuiz(questions));
+});
+
+test("isQuizFinished returns true for a quiz with no questions", () => {
+  assert.equal(isQuizFinished(createQuiz([])), true);
+});
+
+test("answerQuestion records a correct answer without mutating the input", () => {
+  const state = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(state, 1);
+
+  assert.equal(result.correct, true);
+  assert.deepEqual(result.state, { ...state, score: 1, answered: true });
+  assert.deepEqual(state, { questions: [{ answer: 1 }], current: 0, score: 0, answered: false });
+});
+
+test("answerQuestion records an incorrect answer without increasing the score", () => {
+  const state = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(state, 0);
+
+  assert.equal(result.correct, false);
+  assert.deepEqual(result.state, { ...state, answered: true });
+  assert.deepEqual(state, { questions: [{ answer: 1 }], current: 0, score: 0, answered: false });
+});
+
+test("advanceQuiz moves to the next question and resets the answered state", () => {
+  const state = { ...createQuiz([{ answer: 0 }, { answer: 1 }]), current: 0, score: 1, answered: true };
+  const original = { ...state };
+  const advanced = advanceQuiz(state);
+
+  assert.deepEqual(advanced, { ...state, current: 1, answered: false });
+  assert.deepEqual(state, original);
+});
+
+test("isQuizFinished returns false until the current question passes the end", () => {
+  const state = createQuiz([{ answer: 0 }]);
+
+  assert.equal(isQuizFinished(state), false);
+  assert.equal(isQuizFinished(advanceQuiz(state)), true);
+});
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);
